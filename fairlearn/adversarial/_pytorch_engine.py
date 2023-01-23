@@ -72,7 +72,7 @@ class PytorchEngine(BackendEngine):
             Y_pred = Y_pred.numpy()
         return Y_pred
 
-    def train_step(self, X, Y, A):
+    def train_step(self, X, Y, A, L=None):
         """
         Perform one training step over data in PyTorch models.
 
@@ -101,7 +101,7 @@ class PytorchEngine(BackendEngine):
 
         # For equalized odds
         if self.base.pass_y_:
-            Y_hat = torch.cat((Y_hat, Y), dim=1)
+            Y_hat = torch.cat((Y_hat, L), dim=1)
 
         A_hat = self.adversary_model(Y_hat)
         LA = self.adversary_loss(A_hat, A)
